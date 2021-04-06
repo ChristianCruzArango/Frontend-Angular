@@ -1,0 +1,100 @@
+<div class="btn">
+  <button type="button" (click)="open(registrar)">Registrar Usuario</button>
+</div>
+
+
+<table>
+  <thead>
+    <tr>
+      <th class="text-center">Id</th>
+      <th class="text-center">Nombre</th>
+      <th class="text-center">Rol</th>
+      <th class="text-center">Estado</th>
+      <th class="text-center">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let usr of users">
+      <td class="text-center">{{usr.id}}</td>
+      <td class="text-center">{{usr.nombre}}</td>
+      <td class="text-center">{{usr['role']['nombre']}}</td>
+
+      <td class="text-center">
+        <span class="badge badge-primary" *ngIf="usr.estado == 'activo' ; else inactivo">{{usr.estado}}</span>
+      </td>
+
+
+          <ng-template #inactivo >
+          <span class="badge badge-danger text-center" >{{usr.estado}}</span>
+        </ng-template>
+
+
+        <td class="text-center">
+          <button type="button" class="btn btn-outline-danger" (click)="deleteUser(usr.id,usr.nombre)">Eliminar</button>
+          <br>
+          <br>
+          <button type="button" class="btn btn-outline-primary" (click)="searchUser(usr.id,registrar)">Modificar</button>
+        </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+
+<ng-template #registrar let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h2 class="modal-title text-center" *ngIf="!update" >Registra Usuario </h2>
+    <h2 class="modal-title text-center" *ngIf="update" >Actualizar Usuario </h2>
+
+    <button type="button" class="close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="pre-scrollable" (ngSubmit)="guardarUsuario(f)" #f="ngForm">
+      <div class="form-group">
+        <label for="validation01">Nombre(*)</label>
+        <input type="text" class="form-control" id="validation01" name="nombre"  [(ngModel)]="userInterface.nombre" required>
+      </div>
+
+      <div class="form-group">
+        <label for="validation06">Rol</label>
+        <ng-select [items]="roles" bindLabel="nombre" bindValue="id" placeholder="Seleccione un Rol"
+          [(ngModel)]="userInterface.role_id" name="role_id">
+          <ng-template ng-header-tmp>
+            Buscar Rol
+          </ng-template>
+          <ng-template ng-label-tmp let-item="item">
+            <b>{{item.nombre}}</b>
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item" let-index="index">
+            <b>{{item.nombre}}</b>
+          </ng-template>
+        </ng-select>
+      </div>
+      <br>
+
+      <div class="form-group" *ngIf="update">
+        <label for="validation01">Estado</label>
+        <select class="custom-select" [(ngModel)]="userInterface.estado" name="estado">
+          <option selected>Seleccionar...</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
+
+
+      <div class="modal-footer">
+        <div class="left-side">
+          <button type="button" class="btn btn-ligh" (click)="d('Cross click')">Cancelar</button>
+        </div>
+        <div class="divider"></div>
+        <div class="right-side">
+          <button type="submit" class="btn btn-danger" *ngIf="!update">Confirmar</button>
+          <button type="button" class="btn btn-danger" *ngIf="update" (click)="updateUser()">Actualizar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
