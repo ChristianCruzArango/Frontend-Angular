@@ -22,16 +22,10 @@ export class UsersComponent implements OnInit {
   users:UserInterface [] = [];
   update:boolean = false;
 
-  rolModal:any;
-
   constructor(private modalService:NgbModal, private _service:ServiceService) { }
 
   ngOnInit(): void {
     this.getUsers();
-  }
-
-  abrirRoles(content){
-    this.rolModal = content;
   }
 
   getUsers(){
@@ -59,7 +53,7 @@ export class UsersComponent implements OnInit {
       this.userInterface = resp[0];
       this.update = true;
       this.open(content,'a');
-    });
+    })
   }
 
   updateUser(){
@@ -99,11 +93,23 @@ export class UsersComponent implements OnInit {
     this.modalService.open(content, { size: 'md' , windowClass : 'modal-codesa' , backdrop: 'static' });
   }
 
-  guardarUsuario(){
+  guardarUsuario(f:NgForm){
+
     this.update = false;
     this.modalService.dismissAll();
 
+    if(f.invalid){
+      Swal.fire({
+        title:'ERROR',
+        text:'Todos los campos deben estar llenos o validos',
+        icon:'error'
+      });
+    return;
+    }
+
     const validarNombre = this.users.filter(u => u.nombre == this.userInterface.nombre);
+
+    console.log(validarNombre);
 
     if (validarNombre.length != 0){
       Swal.fire({
@@ -114,20 +120,26 @@ export class UsersComponent implements OnInit {
       return;
 
     }else{
+
       Swal.fire({
         title:'Guardando información',
         text:'Espere un momento por favor',
         icon:'info',
         allowOutsideClick:false
       });
+
       Swal.showLoading();
+
       this._service.createUser(this.userInterface).subscribe(resp=>{
+
         Swal.fire({
           title: "El Usuario " + resp['nombre'],
          text: "Se creo correctamente",
          icon: "success"
         });
+
         this.getUsers();
+
       });
 
     }
