@@ -17,14 +17,16 @@ export class ServiceService {
   options: any;
 
   constructor(private http:HttpClient) {
+    this.header();
+  }
 
+  header(){
     this.options = {
       headers: new HttpHeaders({
         Accept: 'application/json',
         'X-Requested-With':'XMLHttpRequest'
       })
     };
-
   }
 
   /* Get */
@@ -43,6 +45,10 @@ export class ServiceService {
 
   createUser(user:UserInterface):Observable<any>{
     return this.http.post<UserInterface>(`${URL}/codesa/create/users`,user,this.options)
+  }
+
+  createRol(rol:RolInterface):Observable<any>{
+    return this.http.post<UserInterface>(`${URL}/codesa/roles/stores`,rol,this.options)
   }
 
 

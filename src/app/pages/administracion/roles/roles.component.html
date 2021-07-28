@@ -1,1 +1,36 @@
-<p>roles works!</p>
+  <div class="modal-header">
+    <h2 class="modal-title text-center" >Registra Rol</h2>
+
+  </div>
+  <div class="modal-body">
+    <form class="pre-scrollable">
+      <div class="form-group">
+        <label for="validation01">Nombre(*)</label>
+        <input
+          type="text"
+          class="form-control"
+          id="validation01"
+          name="nombre"
+          required
+        />
+      </div>
+
+      <div class="modal-footer">
+        <div class="left-side">
+          <button type="button" class="btn btn-ligh" >
+            Cancelar
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="right-side">
+          <button
+            type="submit"
+            class="btn btn-danger"
+            (click)="guardarRol()"
+          >
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>

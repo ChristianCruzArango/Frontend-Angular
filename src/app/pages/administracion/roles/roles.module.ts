@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,7 +12,11 @@ import { RolesComponent } from './roles.component';
   ],
   imports: [
     CommonModule,
-    RolesRoutingModule
+    RolesRoutingModule,
+    FormsModule
+  ],
+  exports: [
+    RolesComponent
   ]
 })
 export class RolesModule { }

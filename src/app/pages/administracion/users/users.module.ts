@@ -8,12 +8,14 @@ import { UsersComponent } from './users.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RolesModule } from '../roles/roles.module';
 
 @NgModule({
   declarations: [
     UsersComponent
   ],
   imports: [
+    RolesModule,
     NgbModule,
     FormsModule,
     CommonModule,
