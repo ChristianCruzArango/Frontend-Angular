@@ -9,6 +9,9 @@ import { ServiceService } from './../../../service/service.service';
 
 import Swal from 'sweetalert2';
 import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users',
@@ -22,10 +25,33 @@ export class UsersComponent implements OnInit {
   users:UserInterface [] = [];
   update:boolean = false;
 
+  debouncer:Subject<string> = new Subject();
+
   constructor(private modalService:NgbModal, private _service:ServiceService) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.debouncer.pipe(debounceTime(600)).subscribe(
+      valor => {
+        this.validarNombreBusquedad(valor);
+      }
+    );
+  }
+
+  validarNombreBusquedad(valor:string){
+    let expRegular = new RegExp(`${valor}.*`, "i");
+    let userpTemp = this.users;
+    const validarNombre = userpTemp.filter(u => expRegular.test(u.nombre.toUpperCase()));
+    if(validarNombre.length != 0){
+      this.users = validarNombre;
+    }
+    if(valor.length == 0){
+      this.getUsers();
+    }
+  }
+
+  tiempoBusquedadUser(valor){
+      this.debouncer.next(valor);
   }
 
   getUsers(){
@@ -109,7 +135,7 @@ export class UsersComponent implements OnInit {
 
     const validarNombre = this.users.filter(u => u.nombre == this.userInterface.nombre);
 
-    console.log(validarNombre);
+
 
     if (validarNombre.length != 0){
       Swal.fire({

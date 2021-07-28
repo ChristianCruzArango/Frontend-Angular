@@ -1,5 +1,22 @@
-<div class="btn">
-  <button type="button" (click)="open(registrar, 'g')">Registrar Usuario</button>
+
+
+<div class="row">
+  <div class="col-6">
+    <div class="btn">
+      <button type="button" (click)="open(registrar, 'g')">Registrar Usuario</button>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="wrap">
+      <div class="barra">
+        <div class="barraContainer">
+        <input type="text" class="buscar" placeholder="Ingrese su nombre que desea buscar" (input)="tiempoBusquedadUser(valor.value)"  #valor>
+          <i class="fa fa-search"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 
